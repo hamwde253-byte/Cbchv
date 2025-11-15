@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# تحديث النظام
+apt update && apt upgrade -y
+
+# تثبيت OpenSSH Server
+apt install -y openssh-server
+
+# تعديل إعدادات SSH لتفعيل Tunnel
+cat <<EOF >> /etc/ssh/sshd_config
+
+# SSH Tunnel Settings
+AllowTcpForwarding yes
+PermitTunnel yes
+GatewayPorts yes
+EOF
+
+# إضافة مستخدم خاص للـ Tunnel
+useradd -m tunnel
+echo "tunnel:123456" | chpasswd
+
+# إعادة تشغيل SSH
+systemctl restart ssh
+
+echo "✔ SSH Tunnel جاهز!"
+echo "معلومات الدخول:"
+echo "User: tunnel"
+echo "Password: 123456"
+echo "استخدم Termius لإنشاء Port Forwarding أو SOCKS5"
