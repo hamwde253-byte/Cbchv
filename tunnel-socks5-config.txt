@@ -1,0 +1,6 @@
+Host internet-tunnel
+    HostName YOUR_SERVER_IP
+    User root
+    Port 22
+    IdentityFile ~/.ssh/id_rsa
+    DynamicForward 1080
